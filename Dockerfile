@@ -2,12 +2,13 @@ FROM php:5-apache
 
 WORKDIR /var/www/html
 
-RUN apt-get update -y && docker-php-ext-install pdo_mysql \
-&& apt-get install -y libpng-dev && docker-php-ext-install gd
+RUN docker-php-ext-install pdo_mysql
+RUN apt-get update && apt-get install -y libpng-dev && docker-php-ext-install gd
 
 RUN a2enmod rewrite headers
 
-RUN echo "date.timezone = Asia/Kolkata" > /usr/local/etc/php/conf.d/custom-php.ini
+ARG PHP_TIMEZONE="Asia/Kolkata"
+RUN echo "date.timezone = ${PHP_TIMEZONE}" > /usr/local/etc/php/conf.d/custom-php.ini
 
 RUN apt-get install -y unzip \
 && cd .. \
