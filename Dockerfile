@@ -8,10 +8,12 @@ RUN apt-get update -y && docker-php-ext-install pdo_mysql \
 RUN a2enmod rewrite headers
 
 RUN apt-get install -y unzip \
+&& cd .. \
 && curl -O https://codeload.github.com/sapplica/sentrifugo/zip/master \
-&& unzip master -d .. \
+&& unzip master \
 && rm master \
-&& chown -R nobody ../.* \
-&& chmod -R 777 ../.* \
-&& mv ../sentrifugo-master/* . \
-&& rm -rf ../sentrifugo-master
+&& useradd nobody.nobody \
+&& chown -R nobody.nobody sentrifugo-master \
+&& chmod -R 777 sentrifugo-master \
+&& rm -rf html \
+&& mv sentrifugo-master html
